@@ -1,0 +1,276 @@
+﻿<Window x:Class="Banking.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Banking"
+        mc:Ignorable="d" Name="myM"
+        Title="Managment" Height="594.952" Width="967.082">
+    <Window.Resources>
+        <Style TargetType="ComboBox">
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="25"/>
+        </Style>
+        <Style x:Key="Title" TargetType="Label">
+            <Setter Property="Width" Value="auto"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="Label">
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0 5 0 0"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="0 5 0 0"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="519*"/>
+            <ColumnDefinition Width="440*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel  Background="Silver"  Orientation="Horizontal" Grid.ColumnSpan="2"  HorizontalAlignment="Stretch">
+            <Label Style="{StaticResource Title}" Content="Филиал"></Label>
+            <ComboBox x:Name="comboBoxBranch" ItemsSource="{Binding Branch}" Height="25"/>
+            <Label Content="Кассир" Style="{StaticResource Title}"/>
+            <ComboBox Name="comboBoxEmployee" Height="25" Width="150" SelectionChanged="comboBoxEmployee_SelectionChanged" IsEnabled="False"/>
+            <Label Style="{StaticResource Title}" Content="Адресс"/>
+            <Label Style="{StaticResource Title}" Content="{Binding Address}" Width="100"></Label>
+            <Label Style="{StaticResource Title}" Content="Название Банка"/>
+            <Label Style="{StaticResource Title}" Content="{Binding NameBranch}" Width="120"></Label>
+            <Button Width="90" Margin="5" Content="Сохранить"  Padding="5"></Button>
+        </StackPanel>
+
+        <TabControl Grid.Row="1" Name="tabControl" Visibility="Visible" >
+            <TabItem Header="Сотрудники">
+                <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=listBoxUser,Path=SelectedItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120" Content="Должность :"/>
+                        <TextBlock Text="{Binding TITLE}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120" Content="Департамент :"/>
+                        <TextBlock Text="{Binding DEPARTMENT.NAME}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120" Content="Дата устройства :"/>
+                        <TextBlock Text="{Binding START_DATE}"/>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </TabItem>
+            <!---->
+            <TabItem Header="Клиенты" >
+                <StackPanel  DataContext="{Binding ElementName=listBoxUser, Path=SelectedItem}">
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Адресс :"/>
+                        <TextBox Text="{Binding ADDRESS}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Город :"/>
+                        <TextBox Text="{Binding CITY}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Телефон :"/>
+                        <TextBox Text="{Binding FED_ID}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Индекс :"/>
+                        <TextBox Text="{Binding POSTAL_CODE}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+
+                        <Label Content="Информация :"/>
+                        <ListBox x:Name="listBoxProductName" ItemsSource="{Binding ACCOUNT}" BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding PRODUCT.NAME}"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=listBoxProductName, Path=SelectedItem}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Балланс :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding AVAIL_BALANCE}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Статус :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding STATUS}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Банк :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding BRANCH.NAME}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Открыт :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding OPEN_DATE}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Выдан :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding EMPLOYEE.FIRST_NAME}"/>
+                            <TextBlock Margin="5 5 0 0" Text="{Binding EMPLOYEE.LAST_NAME}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding ACCOUNT}" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PRODUCT.NAME}"></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0 5 0 0" Text="Транзакции : "/>
+                                        <ListBox ItemsSource="{Binding ACC_TRANSACTION}" BorderThickness="0">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Margin="0 5 0 0" Text="{Binding TXN_DATE}"/>
+                                                        <TextBlock Margin="5 5 0 0" Text="{Binding AMOUNT}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </StackPanel>
+
+            </TabItem>
+            <!---->
+            <TabItem Header="Вип Клиенты">
+                <StackPanel  DataContext="{Binding ElementName=listBoxUser, Path=SelectedItem}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Адресс :"/>
+                        <TextBox Text="{Binding CUSTOMER.ADDRESS}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Город :"/>
+                        <TextBox Text="{Binding CUSTOMER.CITY}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Телефон :"/>
+                        <TextBox Text="{Binding CUSTOMER.FED_ID}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Индекс :"/>
+                        <TextBox Text="{Binding CUSTOMER.POSTAL_CODE}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Открытие ТОВ :"/>
+                        <TextBlock Text="{Binding START_DATE}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Должность :"/>
+                        <TextBlock Text="{Binding TITLE}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <Label Content="Информация :"/>
+                        <ListBox x:Name="listBoxProductNameVIP" ItemsSource="{Binding CUSTOMER.ACCOUNT}" BorderThickness="0">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding PRODUCT.NAME}"></TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=listBoxProductNameVIP, Path=SelectedItem}" >
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Балланс :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding AVAIL_BALANCE}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Статус :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding STATUS}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Банк :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding BRANCH.NAME}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Открыт :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding OPEN_DATE}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Выдан :"/>
+                            <TextBlock Margin="0 5 0 0" Text="{Binding EMPLOYEE.FIRST_NAME}"/>
+                            <TextBlock Margin="5 5 0 0" Text="{Binding EMPLOYEE.LAST_NAME}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox ItemsSource="{Binding ACCOUNT}" BorderThickness="0">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding PRODUCT.NAME}"></TextBlock>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Margin="0 5 0 0" Text="Транзакции : "/>
+                                        <ListBox ItemsSource="{Binding ACC_TRANSACTION}" BorderThickness="0">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <TextBlock Margin="0 5 0 0" Text="{Binding TXN_DATE}"/>
+                                                        <TextBlock Margin="5 5 0 0" Text="{Binding AMOUNT}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </StackPanel>
+
+            </TabItem>
+            <TabItem Header="Услуги Банка">
+
+            </TabItem>
+        </TabControl>
+        <DockPanel x:Name="dockPanel" Grid.Column="1" Grid.Row="1">
+            <ListBox x:Name="listBoxUser" IsEnabled="False">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock>
+                                <Run Text="{Binding INDIVIDUAL.FIRST_NAME}"/>
+                                <Run Text="{Binding INDIVIDUAL.LAST_NAME}"/>
+                                 <Run Text="{Binding OFFICER.FIRST_NAME}"/>
+                                <Run Text="{Binding  OFFICER.LAST_NAME}"/>
+                                <Run Text="{Binding FIRST_NAME}"/>
+                                <Run Text="{Binding LAST_NAME}"/>
+                            </TextBlock>
+
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+        <StackPanel x:Name="stackPanelBottom" IsEnabled="False" Margin="5,0,5,5" Grid.Row="2"  Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Height="25">
+            <Label Content="Услуги :" Width="60"></Label>
+            <ComboBox Name="comboBoxClientOptions" BorderThickness="0"/>
+            <Label Width="130" Content="Сумма\Стоимость :"/>
+            <TextBox Padding="3" Margin="0 0 5 0" BorderThickness="1" Width="100" x:Name="textBoxCost" />
+            <Button IsEnabled="False" Width="90" x:Name="buttonAddProduct"  BorderThickness="0" Content="Онулировать" Click="buttonAddProduct_Click"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

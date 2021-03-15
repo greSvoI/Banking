@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Banking_db" Class="DataBankingDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=HOME\SQLEXPRESS;Initial Catalog=Banking_db;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False" SettingsObjectName="Banking.Properties.Settings" SettingsPropertyName="Banking_dbConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ACC_TRANSACTION" Member="ACC_TRANSACTION">
+    <Type Name="ACC_TRANSACTION">
+      <Column Name="TXN_ID" Type="System.Decimal" DbType="Decimal(19,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AMOUNT" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="FUNDS_AVAIL_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TXN_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TXN_TYPE_CD" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="ACCOUNT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EXECUTION_BRANCH_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TELLER_EMP_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="ACCOUNT_ACC_TRANSACTION" Member="ACCOUNT" ThisKey="ACCOUNT_ID" OtherKey="ACCOUNT_ID" Type="ACCOUNT" IsForeignKey="true" />
+      <Association Name="BRANCH_ACC_TRANSACTION" Member="BRANCH" ThisKey="EXECUTION_BRANCH_ID" OtherKey="BRANCH_ID" Type="BRANCH" IsForeignKey="true" />
+      <Association Name="EMPLOYEE_ACC_TRANSACTION" Member="EMPLOYEE" ThisKey="TELLER_EMP_ID" OtherKey="EMP_ID" Type="EMPLOYEE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ACCOUNT" Member="ACCOUNT">
+    <Type Name="ACCOUNT">
+      <Column Name="ACCOUNT_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="AVAIL_BALANCE" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="CLOSE_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LAST_ACTIVITY_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="OPEN_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="PENDING_BALANCE" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="STATUS" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="CUST_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OPEN_BRANCH_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="OPEN_EMP_ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PRODUCT_CD" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Association Name="ACCOUNT_ACC_TRANSACTION" Member="ACC_TRANSACTION" ThisKey="ACCOUNT_ID" OtherKey="ACCOUNT_ID" Type="ACC_TRANSACTION" />
+      <Association Name="BRANCH_ACCOUNT" Member="BRANCH" ThisKey="OPEN_BRANCH_ID" OtherKey="BRANCH_ID" Type="BRANCH" IsForeignKey="true" />
+      <Association Name="CUSTOMER_ACCOUNT" Member="CUSTOMER" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="CUSTOMER" IsForeignKey="true" />
+      <Association Name="EMPLOYEE_ACCOUNT" Member="EMPLOYEE" ThisKey="OPEN_EMP_ID" OtherKey="EMP_ID" Type="EMPLOYEE" IsForeignKey="true" />
+      <Association Name="PRODUCT_ACCOUNT" Member="PRODUCT" ThisKey="PRODUCT_CD" OtherKey="PRODUCT_CD" Type="PRODUCT" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BRANCH" Member="BRANCH">
+    <Type Name="BRANCH">
+      <Column Name="BRANCH_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ADDRESS" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="CITY" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="STATE" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="ZIP_CODE" Type="System.String" DbType="VarChar(12)" CanBeNull="true" />
+      <Association Name="BRANCH_ACC_TRANSACTION" Member="ACC_TRANSACTION" ThisKey="BRANCH_ID" OtherKey="EXECUTION_BRANCH_ID" Type="ACC_TRANSACTION" />
+      <Association Name="BRANCH_ACCOUNT" Member="ACCOUNT" ThisKey="BRANCH_ID" OtherKey="OPEN_BRANCH_ID" Type="ACCOUNT" />
+      <Association Name="BRANCH_EMPLOYEE" Member="EMPLOYEE" ThisKey="BRANCH_ID" OtherKey="ASSIGNED_BRANCH_ID" Type="EMPLOYEE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BUSINESS" Member="BUSINESS">
+    <Type Name="BUSINESS">
+      <Column Name="INCORP_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="STATE_ID" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="CUST_ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="CUSTOMER_BUSINESS" Member="CUSTOMER" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="CUSTOMER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CUSTOMER" Member="CUSTOMER">
+    <Type Name="CUSTOMER">
+      <Column Name="CUST_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ADDRESS" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="CITY" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CUST_TYPE_CD" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="FED_ID" Type="System.String" DbType="VarChar(12) NOT NULL" CanBeNull="false" />
+      <Column Name="POSTAL_CODE" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="STATE" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="CUSTOMER_ACCOUNT" Member="ACCOUNT" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="ACCOUNT" />
+      <Association Name="CUSTOMER_BUSINESS" Member="BUSINESS" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="BUSINESS" Cardinality="One" />
+      <Association Name="CUSTOMER_INDIVIDUAL" Member="INDIVIDUAL" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="INDIVIDUAL" Cardinality="One" />
+      <Association Name="CUSTOMER_OFFICER" Member="OFFICER" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="OFFICER" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DEPARTMENT" Member="DEPARTMENT">
+    <Type Name="DEPARTMENT">
+      <Column Name="DEPT_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="DEPARTMENT_EMPLOYEE" Member="EMPLOYEE" ThisKey="DEPT_ID" OtherKey="DEPT_ID" Type="EMPLOYEE" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EMPLOYEE" Member="EMPLOYEE">
+    <Type Name="EMPLOYEE">
+      <Column Name="EMP_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="END_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FIRST_NAME" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LAST_NAME" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="START_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TITLE" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="ASSIGNED_BRANCH_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DEPT_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SUPERIOR_EMP_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="EMPLOYEE_ACC_TRANSACTION" Member="ACC_TRANSACTION" ThisKey="EMP_ID" OtherKey="TELLER_EMP_ID" Type="ACC_TRANSACTION" />
+      <Association Name="EMPLOYEE_ACCOUNT" Member="ACCOUNT" ThisKey="EMP_ID" OtherKey="OPEN_EMP_ID" Type="ACCOUNT" />
+      <Association Name="EMPLOYEE_EMPLOYEE" Member="EMPLOYEE2" ThisKey="EMP_ID" OtherKey="SUPERIOR_EMP_ID" Type="EMPLOYEE" />
+      <Association Name="BRANCH_EMPLOYEE" Member="BRANCH" ThisKey="ASSIGNED_BRANCH_ID" OtherKey="BRANCH_ID" Type="BRANCH" IsForeignKey="true" />
+      <Association Name="DEPARTMENT_EMPLOYEE" Member="DEPARTMENT" ThisKey="DEPT_ID" OtherKey="DEPT_ID" Type="DEPARTMENT" IsForeignKey="true" />
+      <Association Name="EMPLOYEE_EMPLOYEE" Member="EMPLOYEE1" ThisKey="SUPERIOR_EMP_ID" OtherKey="EMP_ID" Type="EMPLOYEE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.INDIVIDUAL" Member="INDIVIDUAL">
+    <Type Name="INDIVIDUAL">
+      <Column Name="BIRTH_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FIRST_NAME" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="LAST_NAME" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="CUST_ID" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="CUSTOMER_INDIVIDUAL" Member="CUSTOMER" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="CUSTOMER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.OFFICER" Member="OFFICER">
+    <Type Name="OFFICER">
+      <Column Name="OFFICER_ID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="END_DATE" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="FIRST_NAME" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="LAST_NAME" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="START_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="TITLE" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="CUST_ID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="CUSTOMER_OFFICER" Member="CUSTOMER" ThisKey="CUST_ID" OtherKey="CUST_ID" Type="CUSTOMER" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCT" Member="PRODUCT">
+    <Type Name="PRODUCT">
+      <Column Name="PRODUCT_CD" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="DATE_OFFERED" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="DATE_RETIRED" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="PRODUCT_TYPE_CD" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="PRODUCT_ACCOUNT" Member="ACCOUNT" ThisKey="PRODUCT_CD" OtherKey="PRODUCT_CD" Type="ACCOUNT" />
+      <Association Name="PRODUCT_TYPE_PRODUCT" Member="PRODUCT_TYPE" ThisKey="PRODUCT_TYPE_CD" OtherKey="PRODUCT_TYPE_CD" Type="PRODUCT_TYPE" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.PRODUCT_TYPE" Member="PRODUCT_TYPE">
+    <Type Name="PRODUCT_TYPE">
+      <Column Name="PRODUCT_TYPE_CD" Type="System.String" DbType="VarChar(255) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Association Name="PRODUCT_TYPE_PRODUCT" Member="PRODUCT" ThisKey="PRODUCT_TYPE_CD" OtherKey="PRODUCT_TYPE_CD" Type="PRODUCT" />
+    </Type>
+  </Table>
+</Database>

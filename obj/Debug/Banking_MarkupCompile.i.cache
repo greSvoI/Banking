@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-E:\Banking\obj\Debug\
+D:\GitHub\Banking\obj\Debug\
 Banking
 none
 false
 DEBUG;TRACE
-E:\Banking\App.xaml
+D:\GitHub\Banking\App.xaml
 11151548125
 
 91143804373
 141111353196
 MainWindow.xaml;
 
-False
+True
 

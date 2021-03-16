@@ -56,18 +56,60 @@
             <TabItem Header="Сотрудники">
                 <StackPanel Orientation="Vertical" DataContext="{Binding ElementName=listBoxUser,Path=SelectedItem}">
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="120" Content="Должность :"/>
-                        <TextBlock Text="{Binding TITLE}"/>
+                        <Label Width="120" Content="First Name :"/>
+                        <TextBox Name="textBoxEmpFirst" Text="{Binding FIRST_NAME}" IsReadOnly="True" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="120" Content="Департамент :"/>
-                        <TextBlock Text="{Binding DEPARTMENT.NAME}"/>
+                        <Label Width="120" Content="Last Name :"/>
+                        <TextBox x:Name="textBoxEmpLast" Text="{Binding LAST_NAME}" IsReadOnly="True" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <Label Width="120" Content="Дата устройства :"/>
+                        <Label Width="120" Content="Position :"/>
+                        <TextBlock Width="140" Text="{Binding TITLE}"/>
+                        <ComboBox Name="combobBoxPosition" Visibility="Hidden"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120" Content="Department :"/>
+                        <TextBlock Width="140" Text="{Binding DEPARTMENT.NAME}"/>
+                        <ComboBox Name="combobBoxDepartment" Visibility="Hidden" Padding="5" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Width="120" Content="Device date :"/>
                         <TextBlock Text="{Binding START_DATE}"/>
                     </StackPanel>
+                    <Button x:Name="buttonChangeDate" Content="To change the data" Margin="10" Click="buttonChangeDate_Click" IsEnabled="False"/>
+                    <StackPanel x:Name="stackPanelnewEmployee" IsEnabled="False">
+                        <StackPanel Orientation="Horizontal">
+                            <Label HorizontalContentAlignment="Center" Width="auto" Content="Registration of a new employee"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="First Name :"/>
+                            <TextBox x:Name="textBoxFirstName" Width="120" BorderThickness="0 0 0 1"/>
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Last Name :"/>
+                            <TextBox x:Name="textBoxLastName" Width="120" BorderThickness="0 0 0 1"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Branch :"/>
+                            <ComboBox x:Name="comboBoxNameBranch"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Department"/>
+                            <ComboBox x:Name="comboBoxDepartment"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Position :"/>
+                            <ComboBox Name="comboBoxPosition"/>
+                        </StackPanel>
+                        <StackPanel>
+                            <Button x:Name="saveEmployee" Content="Add employee" Margin="10" Click="saveEmployee_Click"/>
+                            <Button x:Name="removeEmployee" Content="Remove employee" Margin="10" Click="removeEmployee_Click"/>
+                        </StackPanel>
+                    </StackPanel>
                     
+                   
                 </StackPanel>
             </TabItem>
             <!---->
